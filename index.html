@@ -49,6 +49,31 @@
      L.marker([19.384132189435483, -99.23183371140516]).addTo(map)
           .bindPopup('Cablebus Vasco de Quiroga'); 
 
-</script>
+    var alcaldiasLayer = L.geoJSON(null, {
+        style: {
+            color: 'blue', 
+            weight: 2, 
+            fillopacity: 0.1
+        },
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties. NOMGEO) {
+             layer. bindPopup('Alcaldía: ' + feature.properties.NOMGEO);
+             }
+        }
+    });
+
+    fetch(' alcaldias.geojson')
+        .then(response => response. json())
+        .then(data => {
+            alcaldiasLayer. addData(data);
+        });
+
+    // Agregar control de capas para encender/apagar
+    var overlayMaps = {
+        "Alcaldías CDMX": alcaldiasLayer
+    };
+L.control. layers(null, overlayMaps).addTo(map);
+
+</script> 
 </body>
 </HTML>
